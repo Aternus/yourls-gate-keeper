@@ -24,10 +24,9 @@ if (!defined('GATE_KEEPER_RECAPTCHA_V3_SECRET_KEY')) {
 yourls_add_action('html_head', 'recaptcha_v3_html_head');
 function recaptcha_v3_html_head($context)
 {
-    if ($context !== 'login') {
-        return;
+    if ($context === 'login') {
+        echo '<script src="https://www.google.com/recaptcha/api.js?render=' . GATE_KEEPER_RECAPTCHA_V3_SITE_KEY . '"></script>';
     }
-    echo '<script src="https://www.google.com/recaptcha/api.js?render=' . GATE_KEEPER_RECAPTCHA_V3_SITE_KEY . '"></script>';
 }
 
 // reCAPTCHA widget to the YOURLS admin login form
