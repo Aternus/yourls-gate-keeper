@@ -1,18 +1,19 @@
-# yours-gate-keeper
+# yourls-gate-keeper
 
-Secure YOURLS Admin Area
-
-## Description
-
-Protect YOURLS admin with with reCaptcha v3.
+Protect YOURLS Admin Area with Google's reCAPTCHA v3.
 
 ## Installation
 
-1. Copy the project to `/user/plugins` or `git clone`
-2. Obtain reCaptcha v3 key at [Google reCAPTCHA](https://www.google.com/recaptcha/admin)
-3. In `config.php`, your keys `GATE_KEEPER_RECAPTCHA_V3_SITE_KEY` and `GATE_KEEPER_RECAPTCHA_V3_SECRET_KEY`
-4. Go to the Admin -> Manage Plugins and activate the plugin (Gate Keeper).
-5. Done. If you go to the `/admin/` page you should see the reCaptcha logo at the bottom right.
+1. Copy or `git clone https://github.com/Aternus/yourls-gate-keeper.git` the project to `/user/plugins`.
+2. Get reCAPTCHA v3 keys at [Google reCAPTCHA](https://www.google.com/recaptcha/admin).
+3. Insert your keys in `/user/config.php`:
+   ```php
+    define( 'GATE_KEEPER_RECAPTCHA_V3_SITE_KEY', 'x' );
+    define( 'GATE_KEEPER_RECAPTCHA_V3_SECRET_KEY', 'y' );
+    ```
+4. Go to the Admin → Manage Plugins and activate the `Gate Keeper` plugin.
+5. Verify everything is working by going to `https://your-yourls-instance.com/admin`, you should see the reCAPTCHA logo
+   at the bottom right with no errors.
 
 ## License
 
