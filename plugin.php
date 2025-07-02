@@ -42,12 +42,12 @@ yourls_add_action('html_head', 'gate_keeper_html_head');
  *
  * @return void
  */
-function gate_keeper_login_form()
+function gate_keeper_add_token_input()
 {
     echo '<input type="hidden" name="token" id="tokenInput">';
 }
 
-yourls_add_action('login_form_bottom', 'gate_keeper_login_form');
+yourls_add_action('login_form_bottom', 'gate_keeper_add_token_input');
 
 
 /**
@@ -56,7 +56,7 @@ yourls_add_action('login_form_bottom', 'gate_keeper_login_form');
  *
  * @return void
  */
-function gate_keeper_add_token()
+function gate_keeper_generate_and_insert_token()
 {
     echo '<script>
         grecaptcha.ready(function() {
@@ -67,7 +67,7 @@ function gate_keeper_add_token()
     </script>';
 }
 
-yourls_add_action('login_form_end', 'gate_keeper_add_token');
+yourls_add_action('login_form_end', 'gate_keeper_generate_and_insert_token');
 
 
 /**
@@ -107,4 +107,4 @@ function gate_keeper_validate_token()
     }
 }
 
-yourls_add_action('pre_login_username_password', 'recaptcha_v3_validation');
+yourls_add_action('pre_login_username_password', 'gate_keeper_validate_token');
