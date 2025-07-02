@@ -31,7 +31,6 @@ function recaptcha_v3_html_head()
 yourls_add_action('login_form_bottom', 'recaptcha_v3_login_form');
 function recaptcha_v3_login_form()
 {
-    echo '<div id="recaptcha"></div>';
     echo '<input type="hidden" name="token" id="tokenInput">';
 }
 
