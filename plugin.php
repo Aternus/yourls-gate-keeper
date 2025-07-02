@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Gate Keeper
-Plugin URI: https://github.com/Aternus/yourls-gate-keeper
-Description: Adds reCAPTCHA v3 to the YOURLS Admin Area.
-Version: 1.0
-Author: Aternus
-Author URI: https://atern.us/
+    Plugin Name: Gate Keeper
+    Plugin URI: https://github.com/Aternus/yourls-gate-keeper
+    Description: Adds reCAPTCHA v3 to the YOURLS Admin Area.
+    Version: 1.0
+    Author: Aternus
+    Author URI: https://atern.us/
 */
 
 // No direct call
@@ -20,25 +20,43 @@ if (!defined('GATE_KEEPER_RECAPTCHA_V3_SECRET_KEY')) {
     return;
 }
 
-// reCAPTCHA script to the head section of the HTML file
-yourls_add_action('html_head', 'recaptcha_v3_html_head');
-function recaptcha_v3_html_head($context)
+/**
+ * Outputs specific HTML and JavaScript for the head section of a page based on the given context.
+ *
+ * @param array $args An array containing contextual information. The first element should specify the context, such as 'login'.
+ * @return void This function does not return a value. It directly outputs content.
+ */
+function gate_keeper_html_head($args)
 {
+    list($context) = $args;
     if ($context === 'login') {
         echo '<script src="https://www.google.com/recaptcha/api.js?render=' . GATE_KEEPER_RECAPTCHA_V3_SITE_KEY . '"></script>';
     }
 }
 
-// reCAPTCHA widget to the YOURLS admin login form
-yourls_add_action('login_form_bottom', 'recaptcha_v3_login_form');
-function recaptcha_v3_login_form()
+yourls_add_action('html_head', 'gate_keeper_html_head');
+
+
+/**
+ * Displays a hidden input field for a security token in a login form.
+ *
+ * @return void
+ */
+function gate_keeper_login_form()
 {
     echo '<input type="hidden" name="token" id="tokenInput">';
 }
 
-// Initialize reCAPTCHA widget
-yourls_add_action('login_form_end', 'recaptcha_v3_inject_script');
-function recaptcha_v3_inject_script()
+yourls_add_action('login_form_bottom', 'gate_keeper_login_form');
+
+
+/**
+ * Embeds a JavaScript snippet to generate and set a reCAPTCHA v3 token.
+ * The token is generated using the reCAPTCHA API and is assigned to a specific input field in the HTML document.
+ *
+ * @return void
+ */
+function gate_keeper_add_token()
 {
     echo '<script>
         grecaptcha.ready(function() {
@@ -49,10 +67,17 @@ function recaptcha_v3_inject_script()
     </script>';
 }
 
+yourls_add_action('login_form_end', 'gate_keeper_add_token');
 
-// Initialize reCAPTCHA widget and verify user's response
-yourls_add_action('pre_login_username_password', 'recaptcha_v3_validation');
-function recaptcha_v3_validation()
+
+/**
+ * Validates a reCAPTCHA v3 token by sending it to the Google reCAPTCHA API.
+ * The method verifies the token's authenticity and checks the score to determine if the request is valid.
+ * If the validation fails, it triggers an error message and halts execution.
+ *
+ * @return bool Returns true if the reCAPTCHA verification is successful and the score is above the threshold; otherwise, returns false.
+ */
+function gate_keeper_validate_token()
 {
     $token = $_POST['token'];
 
@@ -81,3 +106,5 @@ function recaptcha_v3_validation()
         return false;
     }
 }
+
+yourls_add_action('pre_login_username_password', 'recaptcha_v3_validation');
