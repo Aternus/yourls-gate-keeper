@@ -22,8 +22,11 @@ if (!defined('GATE_KEEPER_RECAPTCHA_V3_SECRET_KEY')) {
 
 // reCAPTCHA script to the head section of the HTML file
 yourls_add_action('html_head', 'recaptcha_v3_html_head');
-function recaptcha_v3_html_head()
+function recaptcha_v3_html_head($context)
 {
+    if ($context !== 'login') {
+        return;
+    }
     echo '<script src="https://www.google.com/recaptcha/api.js?render=' . GATE_KEEPER_RECAPTCHA_V3_SITE_KEY . '"></script>';
 }
 
