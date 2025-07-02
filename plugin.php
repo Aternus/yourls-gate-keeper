@@ -2,9 +2,9 @@
 /*
 Plugin Name: Gate Keeper
 Plugin URI: https://github.com/Aternus/yourls-gate-keeper
-Description: Adds reCAPTCHA v3 to the YOURLS Admin login form.
+Description: Adds reCAPTCHA v3 to the YOURLS Admin Area.
 Version: 1.0
-Author: Kiril Reznik
+Author: Aternus
 Author URI: https://atern.us/
 */
 
